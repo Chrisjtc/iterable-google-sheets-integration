@@ -8,35 +8,46 @@ Once your data is synchronized to an Iterable catalog, you can use it in your me
 
 ### 1. Direct Catalog Lookups
 - Perfect for campaign-specific content or single item lookups
-- Use the `catalogLookup` Handlebars helper in your templates
+- Use the `catalog` Handlebars helper to look up specific items
 - Example for campaign content:
   ```handlebars
-  {{catalogLookup "campaign_content" campaignId}}
-  ```
-- Access specific fields:
-  ```handlebars
-  {{catalogLookup "campaign_content" campaignId "headline"}}
+  {{#catalog "campaign_content" campaignId as |content|}}
+    <h1>{{content.headline}}</h1>
+    <div class="content">{{content.bodyText}}</div>
+    <a href="{{content.ctaUrl}}">{{content.ctaText}}</a>
+  {{/catalog}}
   ```
 
 ### 2. Collections for Multiple Items
-- Ideal for displaying multiple products, articles, or offers
+- Ideal for displaying multiple articles, products, or offers
 - Create collections in Iterable to filter and sort catalog items
-- Use collections to show personalized recommendations
-- Example in templates:
+- Use collections to show personalized content feeds
+- Example for displaying articles:
   ```handlebars
-  {{#each (catalogLookup "my_collection")}}
-    <div class="item">
-      <h3>{{this.title}}</h3>
-      <p>{{this.description}}</p>
-      <a href="{{this.url}}">Learn More</a>
+  {{#catalogCollection "FeaturedArticles" as |collection|}}
+    <h2>Featured Story</h2>
+    <div class="featured">
+      <h3>{{collection.[0].title}}</h3>
+      <p>{{collection.[0].summary}}</p>
     </div>
-  {{/each}}
+    
+    <h2>More Stories</h2>
+    {{#each collection}}
+      {{#ifGt @index 0}}
+        <div class="article">
+          <h4>{{title}}</h4>
+          <p>{{summary}}</p>
+          <a href="{{url}}">Read More</a>
+        </div>
+      {{/ifGt}}
+    {{/each}}
+  {{/catalogCollection}}
   ```
 
 Common Use Cases:
 - Campaign content management
-- Product recommendations
 - Article/blog post feeds
+- Product recommendations
 - Personalized offers
 - Dynamic event listings
 
