@@ -1,6 +1,46 @@
 # 🧩 Iterable + Google Sheets Integration
 
-This open-source Google Apps Script adds custom menu options to Google Sheets to send data directly to Iterable via their API. Perfect for marketers and developers managing user lists, campaigns, and event tracking from Sheets.
+This open-source Google Apps Script enables seamless synchronization of data from Google Sheets to Iterable Catalogs. Perfect for marketing teams managing product catalogs, content libraries, or any structured data that needs to be available in Iterable for personalized messaging. The integration provides an easy-to-use interface for updating catalog items directly from your spreadsheets, supporting various data types and automated field mapping.
+
+## 🎯 Using Catalog Data in Messages
+
+Once your data is synchronized to an Iterable catalog, you can use it in your messages in two powerful ways:
+
+### 1. Direct Catalog Lookups
+- Perfect for campaign-specific content or single item lookups
+- Use the `catalogLookup` Handlebars helper in your templates
+- Example for campaign content:
+  ```handlebars
+  {{catalogLookup "campaign_content" campaignId}}
+  ```
+- Access specific fields:
+  ```handlebars
+  {{catalogLookup "campaign_content" campaignId "headline"}}
+  ```
+
+### 2. Collections for Multiple Items
+- Ideal for displaying multiple products, articles, or offers
+- Create collections in Iterable to filter and sort catalog items
+- Use collections to show personalized recommendations
+- Example in templates:
+  ```handlebars
+  {{#each (catalogLookup "my_collection")}}
+    <div class="item">
+      <h3>{{this.title}}</h3>
+      <p>{{this.description}}</p>
+      <a href="{{this.url}}">Learn More</a>
+    </div>
+  {{/each}}
+  ```
+
+Common Use Cases:
+- Campaign content management
+- Product recommendations
+- Article/blog post feeds
+- Personalized offers
+- Dynamic event listings
+
+For more details on using catalogs in messages, see [Iterable's documentation on Catalogs and Collections](https://support.iterable.com/hc/en-us/articles/360033215032-Using-Catalogs-Collections-in-Messages).
 
 ## 📄 License
 
